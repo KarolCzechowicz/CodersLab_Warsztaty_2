@@ -27,9 +27,25 @@ public class User {
         this.userGroup = userGroup;
     }
 
+    public int getId() {
+        return id;
+    }
+
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
     public void setEmail(String email) {
         this.email = email;
     }
+
+
+    public void setUserGroup(UserGroup userGroup) {
+        this.userGroup = userGroup;
+    }
+
 
     private void setPassword(String password) {
         //miejsce na mechanizm szyfrowania
@@ -98,6 +114,25 @@ public class User {
         User[] uArray = new User[users.size()]; uArray = users.toArray(uArray);
         return uArray;
     }
+
+    static public User[] loadAllByGroupId(Connection conn, int userGroupId) throws SQLException {
+        ArrayList<User> users = new ArrayList<User>();
+        String sql = "SELECT * FROM users WHERE user_group_id=?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setInt(1, userGroupId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            User loadedUser = new User();
+            loadedUser.id = resultSet.getInt("id");
+            loadedUser.username = resultSet.getString("username");
+            loadedUser.password = resultSet.getString("password");
+            loadedUser.email = resultSet.getString("email");
+            loadedUser.userGroup = UserGroup.loadUserGroupById(conn, resultSet.getInt("user_group_id"));
+            users.add(loadedUser);}
+        User[] uArray = new User[users.size()]; uArray = users.toArray(uArray);
+        return uArray;
+    }
+
     public void delete(Connection conn) throws SQLException {
         if (this.id != 0) {
             String sql = "DELETE FROM users WHERE id=?";
@@ -115,7 +150,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", userGroup=" + userGroup +
                 '}';
     }
 }
