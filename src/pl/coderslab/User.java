@@ -31,6 +31,9 @@ public class User {
         return id;
     }
 
+    public String getUsername() {
+        return username;
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -47,7 +50,7 @@ public class User {
     }
 
 
-    private void setPassword(String password) {
+    public void setPassword(String password) {
         //miejsce na mechanizm szyfrowania
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }

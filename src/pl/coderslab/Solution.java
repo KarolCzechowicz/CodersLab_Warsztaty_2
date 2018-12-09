@@ -23,8 +23,7 @@ public class Solution {
         this.description = description;
     }
 
-    public Solution(String description, Exercise exercise, User user) {
-        this.description = description;
+    public Solution(Exercise exercise, User user) {
         this.exercise = exercise;
         this.user = user;
     }
@@ -39,12 +38,11 @@ public class Solution {
 
     public void saveToDB(Connection conn) throws SQLException {
         if (this.id == 0) {
-            String sql = "INSERT INTO solution(created, description, exercise_id, users_id) VALUES (NOW(), ?, ?, ?)";
+            String sql = "INSERT INTO solution(created, exercise_id, users_id) VALUES (NOW(), ?, ?)";
             String[] generatedColumns = { "ID" };
             PreparedStatement preparedStatement = conn.prepareStatement(sql, generatedColumns);
-            preparedStatement.setString(1, this.description);
-            preparedStatement.setInt(2, this.exercise.getId());
-            preparedStatement.setInt(3, this.user.getId());
+            preparedStatement.setInt(1, this.exercise.getId());
+            preparedStatement.setInt(2, this.user.getId());
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
             if (rs.next()) {

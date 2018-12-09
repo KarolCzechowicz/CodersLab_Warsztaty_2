@@ -26,6 +26,13 @@ public class Exercise {
         return id;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public void saveToDB(Connection conn) throws SQLException {
         if (this.id == 0) {
