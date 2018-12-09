@@ -22,8 +22,8 @@ public class Main {
        //     User[] users = User.loadAllUsers(conn);
          //   for (User userElement : users) {
           //      System.out.println(userElement);
-            User user4 = User.loadUserById(conn, 4);
-            user4.delete(conn);
+//            User user4 = User.loadUserById(conn, 4);
+//            user4.delete(conn);
 
         }catch (SQLException e) {
             e.printStackTrace();
